@@ -132,7 +132,6 @@ async function start() {
                 if (tab[y + 1][x] == nxt) {
                     ymov = y;
                     while (ymov - y < 1) {
-                        console.log("ymov1");
                         mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                         if (frame == 1)
                             mctx.drawImage(img, 0, 200, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
@@ -148,14 +147,12 @@ async function start() {
                     tab[y + 1][x] = 0;
                     spawnDots(18, tab);
                     y = y + 1;
-                    console.log("3");
 
                     nxt++;
                 }
                 else if (tab[y][x + 1] == nxt) {
                     xmov = x;
                     while (xmov - x < 1) {
-                        console.log("xmov1");
                         mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                         if (frame == 1)
                             mctx.drawImage(img, 0, 50, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
@@ -171,14 +168,12 @@ async function start() {
                     tab[y][x + 1] = 0;
                     spawnDots(18, tab);
                     x = x + 1;
-                    console.log("4");
 
                     nxt++;
                 }
                 else if (tab[y - 1][x] == nxt) {
                     ymov = y;
                     while (y - ymov < 1) {
-                        console.log("ymov-1");
                         mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                         if (frame == 1)
                             mctx.drawImage(img, 0, 449, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
@@ -193,14 +188,12 @@ async function start() {
                     tab[y - 1][x] = 0;
                     spawnDots(18, tab);
                     y = y - 1;
-                    console.log("1");
 
                     nxt++;
                 }
                 else if (tab[y][x - 1] == nxt) {
                     xmov = x;
                     while (x - xmov < 1) {
-                        console.log("xmov-1");
                         mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                         if (frame == 1)
                             mctx.drawImage(img, 0, 350, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
@@ -217,7 +210,6 @@ async function start() {
                     tab[y][x - 1] = 0;
                     spawnDots(18, tab);
                     x = x - 1
-                    console.log("2");
 
                     nxt++;
                 }
