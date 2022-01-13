@@ -12,7 +12,7 @@ function watchAd(){
     Swal.fire({
         title: 'Do you want to see an ad?',
         text: "You will get one token per ad!",
-        iconHtml: '<img src="../img/dollar.png">', // OKAY...
+        iconHtml: '<img src="/img/dollar.png">', // OKAY...
         customClass: {
             icon: 'no-border',
             confirmButton: 'no-border',
