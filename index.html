@@ -8,8 +8,9 @@
     <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/title.css">
+    <link rel="icon" type="image/x-icon" href="/img/pacman.ico">
 
-    <title>Maze</title>
+    <title>Pac-Maze</title>
 </head>
 
 <body>
@@ -29,13 +30,13 @@
         </div>
         <br/>
         <div class="ctrl">
-            <!--<div class="nes-container is-rounded" id="coins">
+            <div class="nes-container is-rounded" id="coins">
                 <p>YOU HAVE: X TOKEN(S)
                 </p>
-            </div>!-->
+            </div>
             <div class="btns">
-                <!--<button onclick="watchAd()" type="button" class="nes-btn is-warning">EARN</button>
-                <br />!-->
+                <button onclick="watchAd()" type="button" class="nes-btn is-warning">EARN</button>
+                <br />
                 <button onclick="start()" type="button" id="playbtn" class="nes-btn is-warning">START</button>
                 <br />
                 <button onclick="about()" type="button" class="nes-btn is-warning">ABOUT</button>
@@ -43,7 +44,7 @@
         </div>
     </main>
 
-    <audio id="bg">
+    <audio id="bg" loop>
         <source src="mus/bg.ogg" type="audio/ogg" loop>
     </audio>
     <audio id="won">

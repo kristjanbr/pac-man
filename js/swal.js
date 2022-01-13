@@ -26,6 +26,21 @@ function watchAd(){
       }).then((result) => {
         if (result.isConfirmed) {
           window.open(a);
+          var tkn=parseInt(localStorage.getItem("tokens"));
+          tkn++;
+          localStorage.setItem("tokens", tkn.toString());
+
+          var coins=document.getElementById('coins');
+          var grm="TOKENS";
+          if(tkn==1)
+            grm="TOKEN"
+          coins.innerHTML="YOU HAVE: "+tkn+" "+grm+"!";
+
+          var playbtn = document.getElementById('playbtn');
+          if(tkn>0){
+            playbtn.disabled =false;
+            playbtn.className = "nes-btn is-warning";
+        }
         }
       })
 
@@ -33,8 +48,10 @@ function watchAd(){
 function about(){
     Swal.fire({
         icon: 'info',
-        text: 'Website made by Kristjan Brataševec, 4.RA',
+        title:'About',
+        text: 'Website made by Kristjan Brataševec, 4. RA, 2022',
         confirmButtonColor: '#485460',
+        footer: "PAC-MAN is a trademark of Bandai Namco."
       })
 
 }

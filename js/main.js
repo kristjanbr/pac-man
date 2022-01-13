@@ -2,21 +2,19 @@ var dotCanvas = document.getElementById('pacDots');
 var dctx = dotCanvas.getContext('2d');
 dctx.scale(2, 2);
 
-
-/*if(localStorage.getItem("tokens") == null) {
-    localStorage.setItem("tokens", 1);
+if (localStorage.getItem("tokens") == null) {
+    localStorage.setItem("tokens", "1");
 }
-var tokens=localStorage.getItem("token");
+var tokens = parseInt(localStorage.getItem("tokens"));
 
 var playbtn = document.getElementById('playbtn');
-if(tokens==0){
-    playbtn.disabled =true;
-    playbtn.className = "nes-btn is-disabled";
-}
 
-var coins=document.getElementById('coins');
-coins.innerHTML="YOU HAVE: "+tokens+" TOKEN(S)!"
-*/
+var coins = document.getElementById('coins');
+var grm="TOKENS";
+    if(tokens==1)
+        grm="TOKEN"
+    coins.innerHTML="YOU HAVE: "+tokens+" "+grm+"!";
+
 var movCanvas = document.getElementById('moving');
 var mctx = movCanvas.getContext('2d');
 
@@ -24,15 +22,25 @@ mctx.scale(2, 2);
 var img = new Image();
 img.src = 'img/pacman.png';
 
+if (tokens <= 0) {
+    playbtn.disabled = true;
+    playbtn.className = "nes-btn is-disabled";
+}
+
 async function start() {
-    /*tokens--;
-    var coins=document.getElementById('coins');
-    coins.innerHTML="YOU HAVE: "+tokens+" TOKEN(S)!"*/
+    tokens = parseInt(localStorage.getItem("tokens"));
+    tokens--;
+    localStorage.setItem("tokens", tokens.toString());
+    var coins = document.getElementById('coins');
+    var grm="TOKENS";
+    if(tokens==1)
+        grm="TOKEN"
+    coins.innerHTML="YOU HAVE: "+tokens+" "+grm+"!";
 
     document.getElementById("bg").pause();
     mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
     var playbtn = document.getElementById('playbtn');
-    playbtn.disabled =true;
+    playbtn.disabled = true;
     playbtn.className = "nes-btn is-disabled";
 
 
@@ -60,15 +68,14 @@ async function start() {
     tab[17] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,98,97,96, 0, 0, 0, 0];
     tab[18] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,101,100,99,0,0, 0, 0, 0, 0];
     tab[19] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    
+
     mus();
-    init();
+    spawnDots(18, tab);
+    await sleep (4500);
+    move(tab);
     x = 9;
     y = 1;
 
-    function init() {
-        resizeCanvas();
-    }
 
     async function mus() {
         document.getElementById("bootup").play();
@@ -76,194 +83,179 @@ async function start() {
         await sleep(4500);
         bgm.volume = 0.2;
         bgm.play();
-        
-    }
-
-    function resizeCanvas() {
-        redraw();
 
     }
 
+    async function spawnDots(count, tab) {
+        dctx.clearRect(0, 0, dotCanvas.width, dotCanvas.height);
+        dctx.fillStyle = "#f6e58d";
+        for (var x = 1; x <= count; x++) {
+            for (var y = 1; y <= count; y++) {
+                if (tab[y][x] != 0) {
+                    dctx.beginPath();
+                    dctx.arc(x * 16.15 - 8, y * 16.15 - 8, 1.8, 0, 2 * Math.PI);
 
-    async function redraw() {
+                    dctx.fill();
+                    dctx.closePath();
+                    //await sleep(10);
+                }
+
+            }
+        }
+    }
+
+    async function move(tab) {
+        frame = 1;
+        nxt = 2;
+        y = 1;
+        x = 9;
+        ymov = 1;
+        xmov = 9;
+        SLP = 15;
+        /*var isFirefox = typeof InstallTrigger !== 'undefined';
+        if (isFirefox) {
+            SLP = 10;
+        }*/
+        nom = document.getElementById("eat");
+        nom.volume = 0.7;
+        nom.play();
+
+        tab[y][x] = 0;
         spawnDots(18, tab);
-        await sleep(4500);
-        move(18, tab);
 
-        async function spawnDots(count, tab) {
-            dctx.clearRect(0, 0, dotCanvas.width, dotCanvas.height);
-            dctx.fillStyle = "#f6e58d";
-            for (var x = 1; x <= count; x++) {
-                for (var y = 1; y <= count; y++) {
-                    if (tab[y][x] != 0) {
-                        dctx.beginPath();
-                        dctx.arc(x * 16.15 - 8, y * 16.15 - 8, 1.8, 0, 2 * Math.PI);
+        while (nxt < 102) {
+            mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
+            if (tab[y + 1][x] == nxt) {
+                ymov = y;
+                while (ymov - y < 1) {
+                    mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
+                    if (frame == 1)
+                        mctx.drawImage(img, 0, 200, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+                    else if (frame == 2)
+                        mctx.drawImage(img, 0, 250, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+                    else if (frame == 3)
+                        mctx.drawImage(img, 0, 300, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
 
-                        dctx.fill();
-                        dctx.closePath();
-                        //await sleep(10);
-                    }
+                    await sleep(SLP);
+                    ymov = ymov + 0.1;
 
                 }
+                tab[y + 1][x] = 0;
+                spawnDots(18, tab);
+                y = y + 1;
+
+                nxt++;
             }
+            else if (tab[y][x + 1] == nxt) {
+                xmov = x;
+                while (xmov - x < 1) {
+                    mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
+                    if (frame == 1)
+                        mctx.drawImage(img, 0, 50, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+                    else if (frame == 2)
+                        mctx.drawImage(img, 0, 100, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+                    else if (frame == 3)
+                        mctx.drawImage(img, 0, 150, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+
+                    await sleep(SLP);
+                    xmov = xmov + 0.1;
+
+                }
+                tab[y][x + 1] = 0;
+                spawnDots(18, tab);
+                x = x + 1;
+
+                nxt++;
+            }
+            else if (tab[y - 1][x] == nxt) {
+                ymov = y;
+                while (y - ymov < 1) {
+                    mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
+                    if (frame == 1)
+                        mctx.drawImage(img, 0, 449, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+                    else if (frame == 2)
+                        mctx.drawImage(img, 0, 502, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+                    else if (frame == 3)
+                        mctx.drawImage(img, 0, 550, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+
+                    await sleep(SLP);
+                    ymov = ymov - 0.1;
+                }
+                tab[y - 1][x] = 0;
+                spawnDots(18, tab);
+                y = y - 1;
+
+                nxt++;
+            }
+            else if (tab[y][x - 1] == nxt) {
+                xmov = x;
+                while (x - xmov < 1) {
+                    mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
+                    if (frame == 1)
+                        mctx.drawImage(img, 0, 350, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+                    else if (frame == 2)
+                        mctx.drawImage(img, 0, 400, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+                    else if (frame == 3)
+                        mctx.drawImage(img, 0, 450, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
+
+                    await sleep(SLP);
+                    xmov = xmov - 0.1;
+
+
+                }
+                tab[y][x - 1] = 0;
+                spawnDots(18, tab);
+                x = x - 1
+
+                nxt++;
+            }
+
+            frame++;
+            if (frame == 4)
+                frame = 1;
+
         }
 
-        async function move(count, tab) {
-            frame = 1;
-            nxt = 2;
-            y = 1;
-            x = 9;
-            ymov = 1;
-            xmov = 9;
-            SLP = 15;
-            var isFirefox = typeof InstallTrigger !== 'undefined';
-            if (isFirefox) {
-                SLP = 10;
-            }
-            nom = document.getElementById("eat");
-            nom.volume = 0.7;
-            nom.play();
+        //zmaga/konec
+        await sleep(200);
 
-            tab[y][x] = 0;
-            spawnDots(18, tab);
+        nom.pause();
+        bgm.pause();
+        document.getElementById("won").play();
 
-            while (nxt < 102) {
-                mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-                if (tab[y + 1][x] == nxt) {
-                    ymov = y;
-                    while (ymov - y < 1) {
-                        mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-                        if (frame == 1)
-                            mctx.drawImage(img, 0, 200, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
-                        else if (frame == 2)
-                            mctx.drawImage(img, 0, 250, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
-                        else if (frame == 3)
-                            mctx.drawImage(img, 0, 300, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
+        flash();
 
-                        await sleep(SLP);
-                        ymov = ymov + 0.1;
-
-                    }
-                    tab[y + 1][x] = 0;
-                    spawnDots(18, tab);
-                    y = y + 1;
-
-                    nxt++;
-                }
-                else if (tab[y][x + 1] == nxt) {
-                    xmov = x;
-                    while (xmov - x < 1) {
-                        mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-                        if (frame == 1)
-                            mctx.drawImage(img, 0, 50, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-                        else if (frame == 2)
-                            mctx.drawImage(img, 0, 100, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-                        else if (frame == 3)
-                            mctx.drawImage(img, 0, 150, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-
-                        await sleep(SLP);
-                        xmov = xmov + 0.1;
-
-                    }
-                    tab[y][x + 1] = 0;
-                    spawnDots(18, tab);
-                    x = x + 1;
-
-                    nxt++;
-                }
-                else if (tab[y - 1][x] == nxt) {
-                    ymov = y;
-                    while (y - ymov < 1) {
-                        mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-                        if (frame == 1)
-                            mctx.drawImage(img, 0, 449, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
-                        else if (frame == 2)
-                            mctx.drawImage(img, 0, 502, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
-                        else if (frame == 3)
-                            mctx.drawImage(img, 0, 550, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
-
-                        await sleep(SLP);
-                        ymov = ymov - 0.1;
-                    }
-                    tab[y - 1][x] = 0;
-                    spawnDots(18, tab);
-                    y = y - 1;
-
-                    nxt++;
-                }
-                else if (tab[y][x - 1] == nxt) {
-                    xmov = x;
-                    while (x - xmov < 1) {
-                        mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-                        if (frame == 1)
-                            mctx.drawImage(img, 0, 350, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-                        else if (frame == 2)
-                            mctx.drawImage(img, 0, 400, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-                        else if (frame == 3)
-                            mctx.drawImage(img, 0, 450, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
-
-                        await sleep(SLP);
-                        xmov = xmov - 0.1;
+        await sleep(10500);
+        bgm.play();
 
 
-                    }
-                    tab[y][x - 1] = 0;
-                    spawnDots(18, tab);
-                    x = x - 1
-
-                    nxt++;
-                }
-
-                frame++;
-                if (frame == 4)
-                    frame = 1;
-
-            }
-
-            //zmaga/konec
-            await sleep(200);
-
-
-
-
-            nom.pause();
-            bgm.pause();
-            document.getElementById("won").play();
-
-            flash();
-
-            await sleep(10500);
-            bgm.play();
-            playbtn.disabled =false;
+        if (tokens > 0) {
+            playbtn.disabled = false;
             playbtn.className = "nes-btn is-warning";
+        }
+    }
+
+    async function flash() {
+        canvas = document.getElementById('canvasMaze');
+        ctx = canvasMaze.getContext('2d');
+        for (i = 0; i < 5; i++) {
+            await sleep(1000);
+            ctx.strokeStyle = "#FFFFFF";
+            ctx.stroke();
+            await sleep(1000);
+            ctx.strokeStyle = "#0000FF";
+            ctx.stroke();
 
         }
-
-        async function flash() {
-            canvas = document.getElementById('canvasMaze');
-            ctx = canvasMaze.getContext('2d');
-            for (i = 0; i < 5; i++) {
-                await sleep(1000);
-                ctx.strokeStyle = "#FFFFFF";
-                ctx.stroke();
-                await sleep(1000);
-                ctx.strokeStyle = "#0000FF";
-                ctx.stroke();
-
-            }
-
-        }
-
-
 
     }
+
+
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    
+
 
 }
-
-//)();
