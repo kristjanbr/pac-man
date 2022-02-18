@@ -5,6 +5,12 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'Crackman';
+    src: url('../fonts/crackman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
 html, body {
     width:  100%;
@@ -14,7 +20,8 @@ html, body {
     background-color: black;
 }
 .swal2-container{
-    font-family: sans-serif;
+    letter-spacing: 2px;
+    font-family: 'crackman', sans-serif;
     cursor: context-menu;
 }
 .maze{
@@ -30,7 +37,6 @@ html, body {
 #canvasMaze{
 	width:55vmin;
 	position: absolute;
-	
 	z-index: 1;
 }
 #pacDots{
@@ -41,8 +47,12 @@ html, body {
 #moving{
 	width:55vmin;
 	position: absolute;
-	
 	z-index: 3;
+}
+#fruity{
+	width:55vmin;
+	position: absolute;
+	z-index: 4;
 }
 
 #pac{
@@ -53,7 +63,10 @@ html, body {
 }
 
 .nes-container, .nes-btn{
-    font-family: 'Press Start 2P', sans-serif;
+    font-family: 'crackman', sans-serif;
+    font-size: 2.3vh;
+    letter-spacing: 2px;
+    color: white;
 }
 .nes-btn{
     margin-top: 2vh;
