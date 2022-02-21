@@ -40,31 +40,6 @@ f_img.src = 'img/fruits.png';
 
 randmaze = Math.floor(Math.random() * 3);
 localStorage.setItem("mazeno", randmaze.toString());
-/*
-a();
-async function a() {
-    const response = await fetch("js/mazes.json");
-    const data = await response.json();
-    tab = data[1].path;
-    spawnDotsa(18, tab);
-}
-async function spawnDotsa(count, tab) {
-    dctx.clearRect(0, 0, dotCanvas.width, dotCanvas.height);
-    dctx.fillStyle = "#f6e58d";
-    for (var x = 1; x <= count; x++) {
-        for (var y = 1; y <= count; y++) {
-            if (tab[y][x] != 0) {
-                dctx.beginPath();
-                dctx.arc(x * 16.15 - 8, y * 16.15 - 8, 1.8, 0, 2 * Math.PI);
-
-                dctx.fill();
-                dctx.closePath();
-                //await sleep(10);
-            }
-
-        }
-    }
-}*/
 isplaying = false;
 redrawMazeTemp(randmaze)
 async function redrawMazeTemp(randmaze) {
@@ -92,9 +67,7 @@ async function redrawMazeTemp(randmaze) {
 }
 
 async function start() {
-    console.log("start");
     var maze_no = parseInt(localStorage.getItem("mazeno"));
-    console.log(maze_no)
     redrawMaze(maze_no);
     isplaying = true;
     tokens = parseInt(localStorage.getItem("tokens"));
@@ -115,34 +88,9 @@ async function start() {
     const data = await response.json();
     tab = data[maze_no].path;
     finish = data[maze_no].end;
-    /*var tab = new Array(20);
-    for (var i = 0; i < tab.length; i++) {
-        tab[i] = new Array(20);
-    }
-    tab[0] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    tab[1] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 0, 0, 0,33,34,37,38];
-    tab[2] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0,31,32,35,36,39];
-    tab[3] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 0,22,23,30,29, 0,41,40];
-    tab[4] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0,21,24, 0,28,43,42, 0];
-    tab[5] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 0,20,25,26,27,44,45, 0];
-    tab[6] = [0, 0, 0, 0, 0, 0, 0, 0,11,10, 9, 0,19,18, 0, 0,47,46, 0];
-    tab[7] = [0, 0, 0, 0, 0, 0, 0, 0,12,13,14,15,16,17, 0, 0,48,51,52];
-    tab[8] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,49,50,53];
-    tab[9] = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,74,73, 0,69,68,55,54];
-    tab[10] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,77,76,75,72,71,70,67,56,57];
-    tab[11] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,78, 0, 0, 0, 0,65,66,59,58];
-    tab[12] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,79, 0, 0, 0, 0,64,63,60, 0];
-    tab[13] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,80, 0, 0, 0, 0, 0,62,61, 0];
-    tab[14] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,81,82,83,84, 0, 0, 0, 0, 0];
-    tab[15] =[0, 0, 0, 0, 0, 0, 0, 0, 0,89,88,87,86,85, 0, 0, 0, 0, 0];
-    tab[16] =[0, 0, 0, 0, 0, 0, 0, 0, 0,90,91,92,93,94,95, 0, 0, 0, 0];
-    tab[17] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,98,97,96, 0, 0, 0, 0];
-    tab[18] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0,101,100,99,0,0, 0, 0, 0, 0];
-    tab[19] =[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-*/
     mus();
     spawnDots(18, tab);
-    var fruit_loc = Math.floor(Math.random() * 65 - 15 + 1) + 15;
+    var fruit_loc = Math.floor(Math.random() *(65-15+1) + 15);
     fruit_tab = decideFruit(data, fruit_loc, maze_no)
     spawnFruit(18, fruit_tab)
     await sleep(4500);
@@ -152,7 +100,6 @@ async function start() {
 
 
     function decideFruit(data, fruit_loc, maze_no) {
-        console.log("decidefruit");
         var fruit_tab = Array.from(Array(20), () => new Array(20).fill(0));
         tab = data[maze_no].path;
         for (i = 1; i < tab.length; i++) {
@@ -175,7 +122,6 @@ async function start() {
     }
 
     async function redrawMaze(randmaze) {
-        console.log("redrawmaze");
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const response = await fetch("js/mazes.json");
         const data = await response.json();
@@ -203,7 +149,6 @@ async function start() {
     }
 
     async function spawnDots(count, tab) {
-        console.log("pawndots");
         dctx.clearRect(0, 0, dotCanvas.width, dotCanvas.height);
         dctx.fillStyle = "#f6e58d";
         for (var x = 1; x <= count; x++) {
@@ -220,8 +165,6 @@ async function start() {
     }
 
     async function spawnFruit(count, tab) {
-        console.log("spawnfruit");
-        console.log(tab);
         fctx.clearRect(0, 0, fruitCanvas.width, fruitCanvas.height);
         for (var x = 1; x <= count; x++) {
             for (var y = 1; y <= count; y++) {
@@ -235,7 +178,10 @@ async function start() {
     }
 
     async function move(tab, finish) {
-        console.log("move");
+        playbtn.disabled = false;
+        playbtn.onclick = halt;
+        playbtn.innerHTML = 'Pause';
+
         frame = 1;
         nxt = 2;
         y = 1;
@@ -243,22 +189,38 @@ async function start() {
         ymov = 1;
         xmov = 9;
         SLP = 15;
+        boolSLP = false;
+        boolAfterSLP = false;
         /*var isFirefox = typeof InstallTrigger !== 'undefined';
         if (isFirefox) {
             SLP = 10;
         }*/
+
         nom = document.getElementById("eat");
         nom.volume = 0.7;
         nom.play();
-
+        async function halt(){
+            document.getElementById("infoMaze").style.visibility = "visible";
+            nom.pause();
+            playbtn.onclick = cont;
+            playbtn.innerHTML = 'Resume';
+            boolSLP=true;
+        }
+        async function cont(){
+            document.getElementById("infoMaze").style.visibility = "hidden";
+            nom.play();
+            boolSLP=false;
+            boolAfterSLP=true;
+            playbtn.onclick = halt;
+            playbtn.innerHTML = 'Pause';
+        }
+        
         tab[y][x] = 0;
         spawnDots(18, tab);
 
         while (nxt < finish) {
-            mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
-            if (tab[y + 1][x] == nxt) {
-                ymov = y;
-                while (ymov - y < 1) {
+            if (tab[y + 1][x] == nxt) { 
+                while (ymov - y < 1 && !boolSLP) {
                     mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                     if (frame == 1)
                         mctx.drawImage(img, 0, 200, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
@@ -269,17 +231,21 @@ async function start() {
 
                     await sleep(SLP);
                     ymov = ymov + 0.1;
+                    boolAfterSLP=false;
 
                 }
-                tab[y + 1][x] = 0;
-                spawnDots(18, tab);
-                y = y + 1;
+                if(!boolSLP){
+                    tab[y + 1][x] = 0;
+                    spawnDots(18, tab);
+                    y = y + 1;
 
-                nxt++;
+                    nxt++;
+                }
+                //ymov = y;
+                
             }
             else if (tab[y][x + 1] == nxt) {
-                xmov = x;
-                while (xmov - x < 1) {
+                while (xmov - x < 1 && !boolSLP) {
                     mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                     if (frame == 1)
                         mctx.drawImage(img, 0, 50, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
@@ -290,17 +256,20 @@ async function start() {
 
                     await sleep(SLP);
                     xmov = xmov + 0.1;
+                    boolAfterSLP=false;
 
                 }
-                tab[y][x + 1] = 0;
-                spawnDots(18, tab);
-                x = x + 1;
+                if(!boolSLP){
+                    tab[y][x + 1] = 0;
+                    spawnDots(18, tab);
+                    x = x + 1;
 
-                nxt++;
+                    nxt++;
+                }
+                //xmov = x;
             }
             else if (tab[y - 1][x] == nxt) {
-                ymov = y;
-                while (y - ymov < 1) {
+                while (y - ymov < 1 && !boolSLP) {
                     mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                     if (frame == 1)
                         mctx.drawImage(img, 0, 449, 33, 33, x * 16.15 - 12, ymov * 16.15 - 12, 10, 10);
@@ -311,16 +280,20 @@ async function start() {
 
                     await sleep(SLP);
                     ymov = ymov - 0.1;
-                }
-                tab[y - 1][x] = 0;
-                spawnDots(18, tab);
-                y = y - 1;
+                    boolAfterSLP=false;
 
-                nxt++;
+                }
+                if(!boolSLP){
+                    tab[y - 1][x] = 0;
+                    spawnDots(18, tab);
+                    y = y - 1;
+
+                    nxt++;
+                } 
+                //ymov = y;
             }
-            else if (tab[y][x - 1] == nxt) {
-                xmov = x;
-                while (x - xmov < 1) {
+            else if (tab[y][x - 1] == nxt) {                    
+                while (x - xmov < 1 && !boolSLP) {
                     mctx.clearRect(0, 0, movCanvas.width, movCanvas.height);
                     if (frame == 1)
                         mctx.drawImage(img, 0, 350, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
@@ -330,24 +303,33 @@ async function start() {
                         mctx.drawImage(img, 0, 450, 33, 33, xmov * 16.15 - 12, y * 16.15 - 12, 10, 10);
 
                     await sleep(SLP);
-                    xmov = xmov - 0.1;
 
+                    xmov = xmov - 0.1;
+                    boolAfterSLP=false;
 
                 }
-                tab[y][x - 1] = 0;
-                spawnDots(18, tab);
-                x = x - 1
+                if(!boolSLP){
+                    tab[y][x - 1] = 0;
+                    spawnDots(18, tab);
+                    x = x - 1
 
-                nxt++;
+                    nxt++;
+                }
+                //xmov = x;
             }
-            if (nxt == fruit_loc + 1) {
-                fctx.clearRect(0, 0, fruitCanvas.width, fruitCanvas.height);
-                await sleep(SLP);
-                document.getElementById("food").play();
+            if(!boolSLP){
+                if (nxt == fruit_loc + 1) {
+                    fctx.clearRect(0, 0, fruitCanvas.width, fruitCanvas.height);
+                    await sleep(SLP);
+                    document.getElementById("food").play();
+                }
+                frame++;
+                if (frame == 4)
+                    frame = 1;
             }
-            frame++;
-            if (frame == 4)
-                frame = 1;
+            else{
+                await sleep(100);
+            }
 
         }
 
@@ -358,7 +340,8 @@ async function start() {
         bgm.pause();
         document.getElementById("won").play();
 
-        flash();
+        playbtn.disabled=true;
+        flash(); //<--- onclick && innerHTML 'start'
 
         await sleep(10500);
         bgm.play();
@@ -392,14 +375,22 @@ async function start() {
             await sleep(1000);
             ctx.strokeStyle = "#0000FF";
             ctx.stroke();
-
         }
+
+        playbtn.onclick = start;
+        playbtn.innerHTML = 'Start';
 
     }
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
+    function sleepbad(miliseconds) {
+        var currentTime = new Date().getTime();
+     
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
+     }
 
 }
 var oglasi = new Array(6);
@@ -445,4 +436,7 @@ function watchAd() {
         }
     })
 
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

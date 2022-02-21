@@ -1,4 +1,3 @@
-@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
 @font-face {
     font-family: 'PacfontGood';
     src: url('../fonts/PacfontGood.ttf') format('truetype');
@@ -30,10 +29,16 @@ html, body {
 }
 .ctrl{
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 2vh;
+    right: 2vh;
+    background-color: #050505;
+    padding: 2vh;
+    border-radius: 0.6vh;
+    padding-bottom: -10vh;
 }
-
+.maze{
+    padding-bottom: -50vh;
+}
 #canvasMaze{
 	width:55vmin;
 	position: absolute;
@@ -54,28 +59,60 @@ html, body {
 	position: absolute;
 	z-index: 4;
 }
+#infoMaze{
+    visibility: hidden;
+    width:55vmin;
+	position: absolute;
+	z-index: 5;
+    font-family: 'crackman',sans-serif;
+    font-size: 12vh;
+    color: white;
+    line-height: 55vmin;
+    text-align: center;
+    opacity: 0.9;
+}
 
 #pac{
     font-family: 'PacfontGood', sans-serif;
-    font-size: 8vw;
+    font-size: 7vw;
     justify-content: center;
     display: flex;
+    margin: 0;
+    padding: 5vh;
 }
-
-.nes-container, .nes-btn{
-    font-family: 'crackman', sans-serif;
-    font-size: 2.3vh;
-    letter-spacing: 2px;
+#coins{
+    text-align: center;
     color: white;
 }
-.nes-btn{
+#coins, button{
+    font-family: 'crackman', sans-serif;
+    font-size: 2.4vh;
+    letter-spacing: 2px;
+    padding: 0.8vh;
+}
+button{
+    color: black;
     margin-top: 2vh;
+    background-color: #fed330;
+    border-radius: 0.5vh;
+    border: #f7b731;
+    margin-left: 1vh;
+}
+button:disabled{
+    color: black;
+    margin-top: 2vh;
+    background-color: #888374;
+    border-radius: 0.5vh;
+    border: #f7b731;
+    margin-left: 1vh;
+}
+#playbtn{
+    width:12vh
 }
 .btns{
     display: flex;
     justify-content: center;
 }
-
 .no-border {
     border: 0 !important;
 }

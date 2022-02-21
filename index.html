@@ -3,9 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/title.css">
     <link rel="icon" type="image/x-icon" href="img/pacman.ico">
@@ -28,19 +26,18 @@
             <canvas id="pacDots" width="584" height="584"></canvas>
             <canvas id="moving" width="584" height="584"></canvas>
             <canvas id="fruity" width="584" height="584"></canvas>
+            <div id="infoMaze" width="584" height="584">PAUSED</div>
         </div>
         <br/>
         <div class="ctrl">
-            <div class="nes-container is-rounded" id="coins">
+            <div id="coins">
                 <p>YOU HAVE: X TOKEN(S)
                 </p>
             </div>
             <div class="btns">
-                <button onclick="watchAd()" type="button" class="nes-btn is-warning">EARN</button>
-                <br />
-                <button onclick="start()" type="button" id="playbtn" class="nes-btn is-warning">START</button>
-                <br />
-                <button onclick="about()" type="button" class="nes-btn is-warning">ABOUT</button>
+                <button onclick="watchAd()" type="button">EARN</button>
+                <button onclick="start()" type="button" id="playbtn">START</button>
+                <button onclick="about()" type="button">ABOUT</button>
             </div>
         </div>
     </main>
@@ -57,7 +54,6 @@
     <audio id="food">
         <source src="mus/food.mp3" type="audio/mpeg" loop>
     </audio>
-    <!--<script src="js/maze.js"></script>!-->
     <script src="js/main.js"></script>
     <script src="js/title.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
