@@ -28,7 +28,6 @@ coins.innerHTML = "No. of tokens: " + tokens;
 
 if (tokens <= 0) {
     playbtn.disabled = true;
-    playbtn.className = "nes-btn is-disabled";
 }
 
 /*----IMAGES INIT.------*/
@@ -82,7 +81,6 @@ async function start() {
 
     var playbtn = document.getElementById('playbtn');
     playbtn.disabled = true;
-    playbtn.className = "nes-btn is-disabled";
 
     const response = await fetch("js/mazes.json");
     const data = await response.json();
@@ -340,6 +338,7 @@ async function start() {
         bgm.pause();
         document.getElementById("won").play();
 
+        document.getElementById("infoMaze").style.visibility = "hidden";
         playbtn.disabled=true;
         flash(); //<--- onclick && innerHTML 'start'
 
@@ -351,7 +350,6 @@ async function start() {
 
         if (tokens > 0) {
             playbtn.disabled = false;
-            playbtn.className = "nes-btn is-warning";
         }
     }
 
@@ -431,7 +429,6 @@ function watchAd() {
             var playbtn = document.getElementById('playbtn');
             if (tokens > 0 && isplaying == false) {
                 playbtn.disabled = false;
-                playbtn.className = "nes-btn is-warning";
             }
         }
     })
